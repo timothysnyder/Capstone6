@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "TaskList";
+}
+
+<h1 align="center">Task List</h1>
+
+@foreach (var c in ViewBag.TaskList)
+{
+<div class="col-md-3">
+
+    <p align="center"><b>User Name: @c.UserName</b></p>
+    <p align="center"><b>Task Name:</b> @c.TaskName</p>
+    <p align="center"><b>Task Description</b> @c.Description</p>
+    <p align="center"><b>Due Date @c.DueDate</b></p>
+    <p align="center"><b>Task Status @c.Status</b></p>
+
+
+    @*<p><a href="/Home/ShowItemDetails?Item=@c.Task">Details</a></p>
+        <p><a href="/Home/ShowItemDetails?Description=@c.Description">Details</a></p>*@
+
+</div>
+}
