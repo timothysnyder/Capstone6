@@ -5,19 +5,43 @@
 
 <h1 align="center">Task List</h1>
 
-@foreach (var c in ViewBag.TaskList)
-{
-<div class="col-md-3">
+<a href="/Home/NewTaskForm">Add a new Task</a>
 
-    <p align="center"><b>User Name: @c.UserName</b></p>
-    <p align="center"><b>Task Name:</b> @c.TaskName</p>
-    <p align="center"><b>Task Description</b> @c.Description</p>
-    <p align="center"><b>Due Date @c.DueDate</b></p>
-    <p align="center"><b>Task Status @c.Status</b></p>
+<table class="table">
+    <tr>
+        <th>
+            User Name
+        </th>
+        <th>
+            Task Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Due Date
+        </th>
+        <th>
+            Status
+        </th>
+
+    </tr>
+
+    @foreach (var task in ViewBag.TaskList)
+    {
+    <tr>
+        <td>@task.UserName</td>
+        <td>@task.TaskName</td>
+        <td>@task.Description</td>
+        <td>@task.DueDate</td>
+        <td>@task.Status</td>
 
 
-    @*<p><a href="/Home/ShowItemDetails?Item=@c.Task">Details</a></p>
-        <p><a href="/Home/ShowItemDetails?Description=@c.Description">Details</a></p>*@
+        <td><a href="/Home/DeleteTask?TaskID=@task.TaskName">Delete</a></td>
 
-</div>
-}
+        <td><a href="/Home/ChangeStatus?TaskID=@task.TaskName">ChangeStatus</a></td>
+
+    </tr>
+    }
+
+</table>

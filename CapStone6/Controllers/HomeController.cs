@@ -76,5 +76,54 @@ namespace CapStone6.Controllers
             return View("Welcome");
 
         }
+
+        public ActionResult NewTaskForm()
+        {
+            return View();
+        }
+
+        public ActionResult SaveNewTask(Task newTask)
+        {
+            Capstone6Entities orm = new Capstone6Entities();
+
+            orm.Tasks.Add(newTask);
+
+            orm.SaveChanges();
+
+            return RedirectToAction("TaskList");
+        }
+
+        public ActionResult DeleteTask(string TaskID)
+        {
+            Capstone6Entities orm = new Capstone6Entities();
+            Task Found = orm.Tasks.Find(TaskID);
+            orm.Tasks.Remove(Found);
+            orm.SaveChanges();
+            return RedirectToAction("TaskList");
+        }
+
+        public ActionResult ChangeStatus(string TaskID)
+        {
+            Capstone6Entities ORM = new Capstone6Entities();
+            Task Found = ORM.Tasks.Find(TaskID);
+            if (Found.Status == "incomplete")
+            {
+                Found.Status = "complete";
+            }
+            else
+            {
+                Found.Status = "incomplete";
+            }
+
+          
+            ORM.Entry(Found).State = System.Data.Entity.EntityState.Modified;
+
+            ORM.SaveChanges();
+            return RedirectToAction("TaskList");
+
+        }
+
+
+
     }
 }

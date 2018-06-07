@@ -1,42 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="Capstone6Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="Task">
-    <Key>
-      <PropertyRef Name="TaskName" />
-    </Key>
-    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Status" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-    <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="User" Relationship="Self.FK_Tasks_Users" FromRole="Tasks" ToRole="Users" />
-  </EntityType>
   <EntityType Name="User">
     <Key>
       <PropertyRef Name="UserName" />
     </Key>
     <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Users" FromRole="Users" ToRole="Tasks" />
+    <NavigationProperty Name="Tasks" Relationship="Capstone6Model.FK_Tasks_Users" FromRole="User" ToRole="Task" />
+  </EntityType>
+  <EntityContainer Name="Capstone6Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Tasks" EntityType="Capstone6Model.Task" />
+    <AssociationSet Name="FK_Tasks_Users" Association="Capstone6Model.FK_Tasks_Users">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Task" EntitySet="Tasks" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Task">
+    <Key>
+      <PropertyRef Name="TaskName" />
+    </Key>
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="DueDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="User" Relationship="Capstone6Model.FK_Tasks_Users" FromRole="Task" ToRole="User" />
   </EntityType>
   <Association Name="FK_Tasks_Users">
-    <End Role="Users" Type="Self.User" Multiplicity="1" />
-    <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+    <End Type="Capstone6Model.User" Role="User" Multiplicity="1" />
+    <End Type="Capstone6Model.Task" Role="Task" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Users">
+      <Principal Role="User">
         <PropertyRef Name="UserName" />
       </Principal>
-      <Dependent Role="Tasks">
+      <Dependent Role="Task">
         <PropertyRef Name="UserName" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="Capstone6Entities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="Tasks" EntityType="Self.Task" />
-    <EntitySet Name="Users" EntityType="Self.User" />
-    <AssociationSet Name="FK_Tasks_Users" Association="Self.FK_Tasks_Users">
-      <End Role="Users" EntitySet="Users" />
-      <End Role="Tasks" EntitySet="Tasks" />
-    </AssociationSet>
-  </EntityContainer>
 </Schema>
